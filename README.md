@@ -196,7 +196,9 @@ These requests do not create a conversation or invoke a model.
 
 Azure HTTP errors, request IDs, response bodies and `Retry-After` are surfaced
 without automatic retries. Local calls are limited to 32 KiB and Azure replies
-to 16 MiB, with a 30-second CLI timeout and a 60-second Azure timeout.
+to 16 MiB, with a 30-second CLI timeout and a 60-second Azure timeout. Oversized
+local requests receive HTTP 413, then the connection closes rather than keeping
+an incomplete upload alive.
 
 ## Credential and content handling
 

@@ -392,8 +392,10 @@ test('oversized local JSON is rejected with HTTP 413, not a disconnected socket'
   for (const size of [33 * 1024, 128 * 1024]) {
     const response = await fetch(`${base}/api/execute`, { method: 'POST', headers, body: JSON.stringify({ text: 'x'.repeat(size) }) });
     assert.equal(response.status, 413);
+    assert.equal(response.headers.get('connection'), 'close');
     assert.equal((await response.json()).error.code, 'request_too_large');
   }
+  assert.equal((await fetch(`${base}/api/health`)).status, 200);
 });
 
 test('HTTP integration preserves both operations and surfaces Azure errors', async t => {

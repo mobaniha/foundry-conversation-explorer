@@ -69,6 +69,7 @@ export async function createLabServer({ execute = executeRequest, logger = conso
     } catch (error) {
       if (response.destroyed) return;
       if (error instanceof LabError) {
+        if (error.status === 413) response.setHeader('Connection', 'close');
         logger.warn(`[lab] ${error.code} (HTTP ${error.status})`);
         json(response, error.status, { ...error.details, error: { code: error.code, message: error.message } });
       } else {
