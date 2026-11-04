@@ -1,0 +1,24 @@
+{
+  "name": "foundry-conversation-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A local, read-only REST lab for Foundry conversations and Azure OpenAI responses.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mobaniha/foundry-conversation-explorer.git"
+  },
+  "homepage": "https://github.com/mobaniha/foundry-conversation-explorer#readme",
+  "bugs": {
+    "url": "https://github.com/mobaniha/foundry-conversation-explorer/issues"
+  },
+  "engines": {
+    "node": ">=22.9.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test",
+    "check": "node --check server.mjs && node --check lab.mjs"
+  }
+}
