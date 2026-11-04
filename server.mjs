@@ -14,9 +14,13 @@ function json(response, status, data) {
 async function readJson(request) {
   const parts = [];
   let size = 0;
-  for await (const part of request) {
+  // Keep the request alive on early exit so the client can receive the 413 response.
+  for await (const part of request.iterator({ destroyOnReturn: false })) {
     size += part.length;
-    if (size > 32 * 1024) throw new LabError(413, 'request_too_large', 'The local request body exceeds 32 KiB.');
+    if (size > 32 * 1024) {
+      request.resume();
+      throw new LabError(413, 'request_too_large', 'The local request body exceeds 32 KiB.');
+    }
     parts.push(part);
   }
   try {
